@@ -7,7 +7,7 @@ import seaborn as sns
 df = pd.read_csv("books_data.csv")
 
 
-st.title("Books to Scrape: Data Dashboard")
+st.title("Level 4 Project: Book Scrapping - Data Dashboard")
 
 
 st.header("Key Insights")
@@ -29,22 +29,22 @@ with col3:
 
 
 
-most_books_cat = df["Category"].value_counts().idxmax()
-st.write(f"**Category with the Most Books:** {most_books_cat}")
+# most_books_cat = df["Category"].value_counts().idxmax()
+# st.write(f"**Category with the Most Books:** {most_books_cat}")
 
-# Average price per category
-avg_price_per_cat = df.groupby("Category")["Price"].mean().sort_values(ascending=False)
+# # Average price per category
+# avg_price_per_cat = df.groupby("Category")["Price"].mean().sort_values(ascending=False)
 
 
-# Most expensive category
-expensive_cat = avg_price_per_cat.idxmax()
-st.write(f"**Category with the Most Expensive Books on Average:** {expensive_cat} (£{avg_price_per_cat.max():.2f})")
+# # Most expensive category
+# expensive_cat = avg_price_per_cat.idxmax()
+# st.write(f"**Category with the Most Expensive Books on Average:** {expensive_cat} (£{avg_price_per_cat.max():.2f})")
 
 
 
 
 #####  Rating Distribution
-st.subheader("Ratings Breakdown")
+st.subheader("Distribution of Ratings")
 rating_counts = df["Rating"].value_counts().sort_index()
 st.bar_chart(rating_counts)
 
@@ -72,16 +72,15 @@ st.write(f"**Books In Stock:** {percentage_available:.2f}%")
 
 
 
-# --- VISUALIZATIONS SECTION ---
 
-st.header("Visualizations")
+# st.header("Visualizations")
 
 # Books per Category
-st.subheader("Number of Books per Category")
-fig1, ax1 = plt.subplots()
-df["Category"].value_counts().plot(kind="bar", color="skyblue", ax=ax1)
-plt.xticks(rotation=45)
-st.pyplot(fig1)
+# st.subheader("Number of Books per Category")
+# fig1, ax1 = plt.subplots()
+# df["Category"].value_counts().plot(kind="bar", color="skyblue", ax=ax1)
+# plt.xticks(rotation=45)
+# st.pyplot(fig1)
 
 
 
