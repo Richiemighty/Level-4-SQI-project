@@ -2,25 +2,24 @@ from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
 import pandas as pd
 
-# Create a list to hold all scraped data
+
 books_data = []
 
-# Scrape first 3 pages
-for i in range(1, 4):
-    print(f"Scraping page {i}...")
 
-    # Define URL and open connection
+for i in range(1, 4):
+    print(f"Scraping page {i}")
     my_url = f"https://books.toscrape.com/catalogue/category/books_1/page-{i}.html"
     uClient = uReq(my_url)
     page_html = uClient.read()
     uClient.close()
 
-    # Parse HTML
+
     container = soup(page_html, "html.parser")
     con = container.find_all("ol", {"class": "row"})
     view_content = con[0].find_all("li", {"class": "col-xs-6 col-sm-4 col-md-3 col-lg-3"})
 
-    # Loop through all books on the page
+
+    # Looping through all books on the page
     for content in view_content:
         # Title
         product_title = content.find("h3").a["title"]
@@ -57,4 +56,4 @@ print(df.head())
 
 # Save to CSV
 df.to_csv("books_data.csv", index=False)
-print("✅ Data saved to books_data.csv")
+print("Data saved to books_data.csv")
