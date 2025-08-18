@@ -8,6 +8,11 @@ df = pd.read_csv("books_data.csv")
 # Page title
 st.title("Level 4 Project: Book Scraping Dashboard")
 
+st.subheader("Dataset Preview")
+
+with st.expander("Dataset Preview (Click to Expand/Collapse)"):
+    st.dataframe(df.head())
+
 # 1. Total books 
 st.header("Key Insights")
 
@@ -15,32 +20,35 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     total_books = len(df)
-    st.metric("Total Books", total_books)
+    st.metric("Total Books Scraped", total_books)
 
 # 2. Average price 
 with col2:
     avg_price = df["Price"].mean()
-    st.metric("Average Price", f"£{avg_price:.2f}")
+    st.metric("Average Book Price", f"£{avg_price:.2f}")
 
 #  3. Highest and lowest price 
 with col3:
     min_price = df["Price"].min()
     max_price = df["Price"].max()
-    st.metric("Price Range", f"£{min_price:.2f} - £{max_price:.2f}")
+    st.metric("Price Range (Highest and Lowest)", f"£{min_price:.2f} - £{max_price:.2f}")
 
 #  4. Category with most books 
 most_books_cat = df["Category"].value_counts().idxmax()
 st.write(f"**Category with the Most Books:** {most_books_cat}")
 
+
 # 5. Average price per category 
 avg_price_per_category = df.groupby("Category")["Price"].mean()
 st.write("**Average Price per Category:**")
-st.dataframe(avg_price_per_category.round(2))
+st.dataframe(avg_price_per_category)
+
 
 # 6. Most expensive category on average 
 expensive_cat = avg_price_per_category.idxmax()
 expensive_cat_price = avg_price_per_category.max()
 st.write(f"**Category with Most Expensive Books (on average):** {expensive_cat} (£{expensive_cat_price:.2f})")
+
 
 # 7. Number of books per rating 
 st.subheader("Number of Books by Star Rating")
@@ -56,15 +64,17 @@ fig_corr, ax_corr = plt.subplots()
 sns.regplot(x="Rating", y="Price", data=df, ax=ax_corr)
 st.pyplot(fig_corr)
 
+
 # --- 9. In Stock vs Out of Stock ---
 st.subheader("Availability Count")
 availability_counts = df["Availability"].value_counts()
-st.write(availability_counts)
+st.dataframe(availability_counts)
+
 
 # --- 10. Percentage in stock ---
-in_stock_percent = (df["Availability"] == "In Stock").mean() * 100
-st.write(f"**Percentage of Books In Stock:** {in_stock_percent:.2f}%")
+in_stock_percent = (df["Availability"].value_counts() / sum(df["Availability"].value_counts()) ) * 100
 
+st.write(f"**Percentage of Books In Stock:** {in_stock_percent[0]}%")
 
 
 
